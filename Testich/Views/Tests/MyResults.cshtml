@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Testich.Models.Result>
+@{
+    ViewBag.Title = "Мои Результаты";
+}
+
+<div class="container">
+    <div class="float-right mt-2 mb-2">
+        <a class="btn btn-primary btn-sm" role="button" asp-action="Index">Назад</a>
+        <a class="btn btn-primary btn-sm" role="button" asp-action="#">Выгрузить результаты</a>
+    </div>
+  
+        <table class="table">
+            @if (Model.Any())
+            {
+                <tr><td>Дата</td><td>Номер теста</td><td>Балл за тест</td><td>Статус прохождение</td></tr>
+                foreach (var item in Model)
+                {
+        <tr>
+            <td>@item.PassingDate.Day.@item.PassingDate.Month.@item.PassingDate.Year</td>
+            <td class="align-middle">@item.TestId</td>
+            <td class="align-middle">@item.CorrectAnswersPercentage </td>
+            @if (item.CorrectAnswersPercentage == 5 || item.CorrectAnswersPercentage == 4)
+            {
+
+                <td class="align-middle">Да</td>
+            }
+            else
+            {
+                <td class="align-middle">Нет</td>
+            }
+
+        </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        Нет результатов!
+                    </td>
+                </tr>
+            }
+        </table>
+ 
+</div>

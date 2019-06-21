@@ -1,0 +1,48 @@
+﻿@model Testich.ViewModels.TestsViewModel
+@{
+    ViewBag.Title = "Все тесты";
+}
+    <ul class="nav justify-content-end">
+        <div class="nav-item float-right mt-2 mb-4">
+
+            <a class="btn btn-primary btn-sm" role="button" asp-controller="Tests" asp-action="MyTests">Мои тесты</a>
+            <a class="btn btn-primary btn-sm" role="button" asp-controller="Tests" asp-action="MyResults">Результаты</a>
+
+        </div>
+    </ul>
+
+    <div class="container">
+        <div class="tagcloud">
+            <form class="form-inline my-2 my-lg-0" method="get" asp-controller="Tests" asp-action="Index" asp-anti-forgery="true">
+                <ul>
+                    <h4>Облако тегов:</h4>
+                    @foreach (var item in Model.Categories)
+                    {
+
+                        <li><a asp-controller="Tests" asp-action="Index" asp-route-searchStringCategory="@item.Name"><span>@item.Name</span></a></li>
+
+                    }
+
+                </ul>
+            </form>
+        </div>
+        <h4>Тесты:</h4>
+        <table class="table">
+
+            <tr><td>Название теста</td><td>Описание</td><td> </td></tr>
+            @foreach (var item in Model.Tests)
+            {
+                <tr>
+                    <td>@item.Name</td>
+
+                    <td>@item.Description</td>
+
+                    <td>
+
+                        <a class="btn btn-sm btn-outline-success" role="button" asp-controller="Tests" asp-action="Testing" asp-route-id="@item.Id"> Пройти тест</a>
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>

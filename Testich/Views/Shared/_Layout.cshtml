@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Открытая онлайн-система обучающего тестирования TESTICH. Умное тестирование знаний. Конструктор для создания тестов.">
+    <meta name="keywords" content="TESTICH, конструктор тестов, тестирование знаний, открытая, онлайн-система, геймификация">
+    <meta name="author" content="Poroshin Ilya">
+    <meta name="generator" content="Testich">
+    <meta name="yandex-verification" content="b5a1f3513c2efe95" />
+    <meta name="google-site-verification" content="jl-eQRG2AW1w1F46NoKJP951cM88YI14QqQf9F0jUsc" />
+    <title>@ViewData["Title"] - Открытая онлайн-система обучающего тестирования TESTICH.</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://unpkg.com/ionicons@4.4.4/dist/css/ionicons.min.css" asp-append-version="true">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" asp-append-version="true" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://unpkg.com/ionicons@4.4.4/dist/css/ionicons.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+<header>
+        <partial name="_CookieConsentPartial" />
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Тестыч</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная<span class="sr-only">(current)</span></a>
+                    </li>
+                    @{if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Tests" asp-action="Index">Тесты</a></li>
+                        }
+                    }
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">О проекте</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Помощь</a></li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="get" asp-controller="Tests" asp-action="Index" asp-anti-forgery="true">
+                    <input class="form-control mr-sm-2" type="search" name="SearchString" placeholder="Поиск" aria-label="Поиск по названию">
+                    <button class="btn btn-success my-2 my-sm-0 mr-sm-2" type="submit">Поиск</button>
+                </form>
+                @{if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-primary my-2 my-sm-0 mr-sm-2" asp-controller="Account" asp-action="Login">Войти</a>
+                        <a class="btn btn-primary my-2 my-sm-0 mr-sm-2" asp-controller="Account" asp-action="Register">Регистрация</a>
+                    }
+                    else
+                    {
+
+                        <form method="post" class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Logout">
+                            <input class="btn btn-primary my-2 my-sm-0 mr-sm-2" type="submit" value="Выход">
+                        </form>
+
+                    }
+                }
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+        <footer class="footer fixed-bottom">
+            <div class="container">
+                <p>
+                    &copy; @{
+
+                        DateTime now = DateTime.Now;
+                        @now.ToString("yyyy")
+
+                    } - Testich (beta) by <a href="https://github.com/oof3nd">oof3nd</a>
+                </p>
+            </div>
+        </footer>
+    </main>
+<environment include="Development">
+        <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/popper/umd/popper.min.js" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.0/src/js.cookie.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment include="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha256-fTuUgtT7O2rqoImwjrhDgbXTKUwyxxujIMRIK7TbuNU=" crossorigin="anonymous" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.0/src/js.cookie.min.js" asp-append-version="true"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.3.1/bootstrap.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM">
+        </script>
+    </environment>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

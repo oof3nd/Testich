@@ -1,0 +1,31 @@
+﻿@model Testich.ViewModels.CreateQOTViewModel
+@{
+    ViewData["Title"] = "Добавление нового вопроса";
+}
+
+<div class="container">
+    <h1 class="mb-2 mt-2">Добавление нового вопроса</h1>
+    <form asp-controller="Tests" asp-action="CreateQOT" asp-route-idTest="@Model.TestId" asp-route-idLevel="@Model.LevelId" asp-anti-forgery="true">
+        <div class="form-group">
+            <label asp-for="TypeOfQuestionId">Тип вопроса</label>
+            <select class="form-control" asp-for="TypeOfQuestionId" name="TypeOfQuestionId" asp-items="@(new SelectList(Model.TypeOfQuestion, "Id", "Name"))">
+                <option>Выбери тип вопроса</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="QuestionIndexNumber"></label>
+            <input type="number" asp-for="QuestionIndexNumber" name="QuestionIndexNumber" class="form-control" />
+            <span asp-validation-for="QuestionIndexNumber" class="text-danger"></span>
+        </div>
+      
+        <br />
+        <div class="form-group">
+            <input class="btn btn-success btn-lg btn-block" type="submit" value="Далее" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

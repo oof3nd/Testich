@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Testich.Models.Test>
+@{
+    ViewBag.Title = "Мои тесты";
+}
+
+    <div class="container">
+        <div class="float-right mt-2 mb-2">
+            <a class="btn btn-primary btn-sm" role="button" asp-action="Index">Назад</a>
+            <a class="btn btn-primary btn-sm" role="button" asp-controller="Tests" asp-action="UploadTest">Загрузить тест</a>
+            <a class="btn btn-primary btn-sm" role="button" asp-controller="Tests" asp-action="Create">Добавить тест</a>
+        </div>
+
+        <table class="table">
+
+            <tr><td>Название теста</td><td>Описание</td><td> </td></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-middle">@item.Name</td>
+
+                    <td class="align-middle">@item.Description</td>
+
+                    <td class="form-inline">
+
+                        <a class="btn btn-sm btn-primary  mr-sm-1 mt-sm-1 mb-2" asp-action="Edit" asp-route-id="@item.Id">
+                            Изменить
+                        </a>
+                        <a class="btn btn-sm btn-info  mr-sm-1 mt-sm-1 mb-2" asp-action="Details" asp-route-id="@item.Id">
+                            Подробнее
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" asp-anti-forgery="true">
+                            <button class="btn btn-sm btn-danger mr-sm-1 mt-sm-1 mb-2">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>

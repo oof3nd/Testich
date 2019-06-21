@@ -1,0 +1,32 @@
+﻿@using React.AspNet
+@using React.RenderFunctions
+@using React.Router
+@model Testich.ViewModels.CreateTestingViewModel
+
+@{
+    ViewData["Title"] = "Тестирование";
+}
+<div class="container">
+
+</div>
+
+@Html.ReactRouter("RootComponent", new
+{
+    id = Model.TestId,
+    des = Model.TestDescription,
+    time = Model.Time,
+    lvlId = Model.LevelId,
+    lvlHelp = Model.LevelHelp,
+    lot = Model.LevelsOfTests,
+    qId = Model.QuestionId,
+    numbercq = Model.NumberClosedQuestion,
+    contentcq = Model.ContentClosedQuestion,
+    cqos = Model.ClosedQuestionOptions
+})
+
+
+@section Scripts {
+    <script src="~/dist/app.js"></script>
+
+    @Html.ReactInitJavaScript()
+}

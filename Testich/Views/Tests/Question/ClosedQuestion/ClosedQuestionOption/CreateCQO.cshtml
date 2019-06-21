@@ -1,0 +1,35 @@
+﻿@model Testich.ViewModels.CreateCQOViewModel
+
+@{
+    ViewData["Title"] = "Создание закрытого ответа";
+}
+
+
+<div class="container">
+    <h1 class="mb-2 mt-2">Создание закрытого ответа</h1>
+    <form asp-controller="Tests" asp-action="CreateCQO" asp-route-idTest="@Model.TestId" asp-route-idClosedQuestion="@Model.ClosedQuestionId" asp-anti-forgery="true">
+
+        <div class="form-group">
+            <label asp-for="Content"></label>
+
+            <input type="text" asp-for="Content" class="form-control" />
+            <span asp-validation-for="Content" class="text-danger"></span>
+            <small class="form-text text-muted">Используйте сервисы хранения изображений, если требуется добавить картинку. (beta)</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="OptionNumber"></label>
+            <input type="number" asp-for="OptionNumber" class="form-control" />
+            <span asp-validation-for="OptionNumber" class="text-danger"></span>
+        </div>
+
+        <br />
+        <div class="form-group">
+            <input class="btn btn-success btn-lg btn-block" type="submit" value="Далее" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

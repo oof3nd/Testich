@@ -1,0 +1,106 @@
+﻿@model Testich.ViewModels.DetailsTestViewModel
+@{
+    ViewData["Title"] = "Подробнее";
+}
+
+<a href="javascript:" id="return-to-top">Наверх</a>
+<a href="javascript:" id="return-to-down">Вниз</a>
+
+<div class="container">
+    <div class="float-right mt-2 mb-2">
+        <a class="btn btn-primary btn-sm" role="button" asp-action="MyTests">Назад к списку</a>
+        <a class="btn btn-primary btn-sm" role="button" asp-action="CreateLevel" asp-route-id="@Model.Test.Id">Добавить уровень теста</a>
+    </div>
+
+
+    <h1>@Model.Test.Name</h1>
+
+
+    <ul class="media-list list-group">
+        <li class="media list-group-item">Описание: @Model.Test.Description</li>
+        <li class="media list-group-item">Ограничение времени прохождения теста в минутах: @Model.Test.TimeRestricting мин.</li>
+        <li class="media list-group-item">Дата создания: @Model.Test.CreatedDate</li>
+        <li class="media list-group-item">
+            Готовность теста для прохождения другими пользователями:
+            @{
+                if (@Model.Test.ReadyForPassing)
+                {
+                    <b> Да</b>
+                }
+                else
+                {
+                    <b> Нет</b>
+                }
+            }
+        </li>
+        <li class="media list-group-item">Рейтинг теста: @Model.Test.Rating</li>
+    </ul>
+    <hr />
+
+    @foreach (var level in Model.LevelOfTests)
+    {
+        <div class="card mt-2 mb-2">
+            <div class="card-header">
+
+                <form asp-action="DeleteConfirmedLevel" asp-route-id="@level.Id" method="post" asp-anti-forgery="true" data-ajax="true" data-ajax-success="deleteLevel(this)">
+                    <span class="badge badge-secondary mb-2">Уровень @level.Name</span>
+                    <a class="btn btn-primary btn-sm align-self-center mb-2" data-toggle="tooltip" data-placement="top" title="Изменить уровень" role="button" asp-action="EditLevel" asp-route-idLevel="@level.Id" asp-route-idTest="@Model.Test.Id"><span class="ion-md-create text-white"></span></a>
+                    <button class="btn btn-danger btn-sm align-self-center mb-2" data-toggle="tooltip" data-placement="top" title="Удалить уровень"><span class="ion-md-close text-white"></span></button>
+                    <div class="float-right">
+                        <a class="btn btn-primary btn-sm mb-2 mr-sm-2 float-right" role="button" data-toggle="tooltip" asp-controller="Tests" asp-action="CreateQOT" asp-route-idTest="@Model.Test.Id " asp-route-idLevel="@level.Id">Добавить вопрос</a>
+                    </div>
+                </form>
+
+            </div>
+            <div class="card-body">
+                @foreach (var question in Model.QuestionOfTests)
+                {
+                    if (@level.Id == question.LevelOfQuestion.Id)
+                    {
+                        <div class="card-title form-inline">
+                            <span class="badge badge-secondary mr-1 ml-1">Вопрос № @question.QuestionIndexNumber</span>
+                            <form asp-action="DeleteConfirmedQOT" asp-route-id="@question.Id" method="post" asp-anti-forgery="true" data-ajax="true" data-ajax-success="deleteQuestion(this, @question.Id)">
+                                <a class="btn btn-primary btn-sm align-self-center" data-toggle="tooltip" data-placement="top" title="Изменить вопрос" role="button" asp-controller="Tests" asp-action="EditQOT" asp-route-idTest="@Model.Test.Id" asp-route-idLevel="@level.Id" asp-route-idQuestion="@question.Id"><span class="ion-md-create  text-white"></span></a>
+                                <button class="btn btn-danger btn-sm align-self-center" data-toggle="tooltip" data-placement="top" title="Удалить вопрос" role="button"><span class="ion-md-close  text-white"></span></button>
+                            </form>
+                        </div>
+
+                        @foreach (var cq in Model.ClosedQuestions)
+                        {
+                            if (question.Id == cq.QuestionOfTest.Id)
+                            {
+                                <ul class="list-group mb-2" id="@question.Id">
+                                    <li class="list-group-item active">
+                                        Описание вопроса: @cq.QuestionContent
+                                        <a class="float-right btn btn-success btn-sm align-self-center ml-auto" data-toggle="tooltip" data-placement="top" title="Добавить ответ" role="button" asp-controller="Tests" asp-action="CreateCQO" asp-route-idTest="@Model.Test.Id" asp-route-idLevel="@level.Id" asp-route-idClosedQuestion="@cq.Id"><span class="ion-md-add text-white"></span></a>
+                                    </li>
+
+                                    @foreach (var cqo in Model.ClosedQuestionOptions)
+                                    {
+                                        if (cq.Id == cqo.ClosedQuestionId)
+                                        {
+                                            <li class="list-group-item">
+                                                <form asp-action="DeleteConfirmedCQO" asp-route-id="@cqo.Id" method="post" asp-anti-forgery="true" data-ajax="true" data-ajax-success="deleteCQO(this)">
+                                                    @cqo.Content
+                                                    <div class="float-right">
+                                                        <a class="btn btn-primary btn-sm align-self-center ml-auto" data-toggle="tooltip" data-placement="top" title="Изменить ответ" role="button" asp-controller="Tests" asp-action="EditCQO" asp-route-idTest="@Model.Test.Id" asp-route-idLevel="@level.Id" asp-route-idClosedQuestionOption="@cqo.Id"><span class="ion-md-create"></span></a>
+                                                        <button class="btn btn-danger btn-sm align-self-center ml-auto" data-toggle="tooltip" data-placement="top" title="Удалить ответ" role="button"><span class="ion-md-close"></span></button>
+                                                    </div>
+                                                </form>
+
+                                            </li>
+                                        }
+                                    }
+
+                                </ul>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+    }
+        <div id="end"></div>
+</div>
+
+

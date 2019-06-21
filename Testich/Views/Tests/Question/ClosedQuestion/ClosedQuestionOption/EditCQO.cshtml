@@ -1,0 +1,41 @@
+﻿@model Testich.ViewModels.ChangeCQOViewModel;
+
+@{
+    ViewData["Title"] = "Редактирование закрытого ответа";
+}
+
+
+<div class="container">
+
+    <h1 class="mb-2 mt-2">Редактирование закрытого ответа</h1>
+
+    <form asp-controller="Tests" asp-action="EditCQO" asp-anti-forgery="true">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="TestId" />
+        <input type="hidden" asp-for="ClosedQuestionOptionId"/>
+        <div class="form-group">
+            <label asp-for="Content" class="control-label"></label>
+            <input asp-for="Content" class="form-control" />
+            <small class="form-text text-muted">Используйте сервисы хранения изображений, если требуется добавить картинку. (beta)</small>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="OptionNumber" class="control-label"></label>
+            <input type="number" asp-for="OptionNumber" class="form-control" />
+            <span asp-validation-for="OptionNumber" class="text-danger"></span>
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
